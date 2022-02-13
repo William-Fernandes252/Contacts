@@ -130,3 +130,6 @@ dmypy.json
 
 # IDE config
 .vscode
+
+# Style packages
+templates/static/vendor/
