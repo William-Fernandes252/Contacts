@@ -17,6 +17,7 @@ class ContactAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name', 'surname')
     list_per_page = 10
     search_fields = ('name', 'surname', 'phone', 'email', 'description')
+    list_editable = ('phone', 'show', 'email')
 
 
 admin.site.register(Category)
