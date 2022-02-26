@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Contact
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
+from .models import Contact
+from .forms import ContactForm
 
 
 def index(request):
@@ -13,6 +14,8 @@ def index(request):
     paginator = Paginator(contacts, 20)
     page_number = request.GET.get('page')
     context['contacts'] = paginator.get_page(page_number)
+    
+    context['contact_form'] = ContactForm()
     
     return render(request, 'contacts/index.html', context)
 
@@ -46,3 +49,7 @@ def search(request):
     context['contacts'] = paginator.get_page(page_number)
     
     return render(request, 'contacts/search.html', context)
+
+
+def add(request):
+    pass
