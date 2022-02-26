@@ -1,52 +1,117 @@
-{% extends "base.html"%}
+{% extends "base.html" %}
+{% load static %}
 
 {% block title %}Contactbook{% endblock title %}
+
+{% block script %}
+	<script src="{% static 'interface.js' %}"></script>
+{% endblock script %}
 
 {% block content %}
 <h1 class="mt-5">My Contactbook</h1>
 
-<form class="my-3" action="{% url 'search' %}" method="get" id="search"></form>
-<form action="{% url 'add'%}" method="post" id="add"></form>
+<div class="container my-3 px-0">
+	<form action="{% url 'search' %}" method="get">
+		<div class="row">
+			<div class="col">
+				<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="term" value="{{ request.GET.term }}">
+			</div>
 
-<div class="form-group row">
-	<div class="col">
-		<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="term" value="{{ request.GET.term }}" form="search">
-	</div>
-	<div class="collapse" id="contact-form">
+			<button class="btn btn-success col-auto" type="button" data-bs-toggle="collapse" data-bs-target="#contact-form" aria-expanded="false" aria-controls="contact-form">
+				<i class="bi bi-plus-lg"></i>
+			</button>
+
+			<div class="btn-group col-auto pe-0">
+				<button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="bi bi-funnel-fill"></i>
+				</button>
+			</div>
+
+			<div class="btn-group col-auto">
+				<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="bi bi-check2-square"></i>
+				</button>
+				<div class="dropdown-menu">
+					<button id="check-all" class="dropdown-item" type="button">Check All</button>
+					<button id="uncheck-all" class="dropdown-item" type="button">Uncheck All</button>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-danger col-auto me-3" id="delete-btn" disabled form="delete">
+				<i class="bi bi-trash-fill"></i>
+			</button>
+		</div>
+	</form>
+	
+	<form class="collapse px-0 mt-3" id="contact-form" action="{% url 'add'%}" method="post">
 		<div class="card card-body">
 			{% csrf_token %}
-			{{ contact_form }}
+			<div class="row mb-2">
+				<div class="col-md-6 pr-1">
+					<label for="{{ contact_form.name.id_for_label }}" class="form-label">Name</label>
+					{{ contact_form.name }}
+				</div>
+				<div class="col-md-6">
+					<label for="{{ contact_form.surname.id_for_label }}" class="form-label">Surname</label>
+					{{ contact_form.surname }}
+				</div>
+			</div>
+			<div class="row mb-2">
+				<div class="col-md-6 pr-1">
+					<label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone</label>
+					{{ contact_form.phone }}
+				</div>
+				<div class="col-md-6">
+					<label for="{{ contact_form.category.id_for_label }}" class="form-label">Category</label>
+					{{ contact_form.category }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<label for="{{ contact_form.email.id_for_label }}" class="form-label">Email</label>
+					{{ contact_form.email }}
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-md-3">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</div>
 		</div>
-	</div>
-	<button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#contact-form" aria-expanded="false" aria-controls="contact-form">
-		+
-	</button>
+	</form>
 </div>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Surname</th>
-			<th>Phone Number</th>
-			<th>Category</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for contact in contacts %}
-		<tr>
-			<td>{{ contact.id }}</td>
-			<td>
-				<a href="{% url 'contact' contact_id=contact.id %}">{{ contact.name }}</a>
-			</td>
-			<td>{{ contact.surname }}</td>
-			<td>{{ contact.phone }}</td>
-			<td>{{ contact.category }}</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+<form action="{% url 'delete' %}" method="POST" id="delete">
+	{% csrf_token %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Phone Number</th>
+				<th>Category</th>
+				<th>Select</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for contact in contacts %}
+			<tr>
+				<td>{{ contact.id }}</td>
+				<td>
+					<a href="{% url 'contact' contact_id=contact.id %}" class="text-decoration-none">{{ contact.name }}</a>
+				</td>
+				<td>{{ contact.surname }}</td>
+				<td>{{ contact.phone }}</td>
+				<td>{{ contact.category }}</td>
+				<td>
+					<input class="contact-checkbox" type="checkbox" name="contacts" value="{{ contact.id }}">
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</form>
 
 <nav aria-label="Contacts page navigation">
 	<ul class="pagination">

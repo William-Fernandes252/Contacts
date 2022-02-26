@@ -13,4 +13,4 @@ class ContactForm(ModelForm):
         self.fields['surname'].widget.attrs['class'] = 'form-control'
         self.fields['phone'].widget.attrs['class'] = 'form-control'
         self.fields['email'].widget.attrs['class'] = 'form-control'
-        self.fields['category'].widget.attrs['class'] = 'form-control'
+        self.fields['category'].widget.attrs['class'] = 'form-control form-select'
