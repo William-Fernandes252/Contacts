@@ -8,112 +8,130 @@
 {% endblock script %}
 
 {% block content %}
-<h1 class="mt-5">My Contactbook</h1>
 
-<div class="container my-3 px-0">
-	<form action="{% url 'search' %}" method="get">
-		<div class="row">
-			<div class="col">
+<div class="container">
+	<div class="row mt-5 mb-2">
+		<h1 class="col">My Contactbook</h1>
+	</div>
+
+	<div class="row mb-2">
+		<div class="col">
+			<form action="{% url 'search' %}" method="get">
 				<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="term" value="{{ request.GET.term }}">
-			</div>
-
-			<button class="btn btn-success col-auto" type="button" data-bs-toggle="collapse" data-bs-target="#contact-form" aria-expanded="false" aria-controls="contact-form">
-				<i class="bi bi-plus-lg"></i>
-			</button>
-
-			<div class="btn-group col-auto pe-0">
-				<button type="button" class="btn btn-warning btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="bi bi-funnel-fill"></i>
-				</button>
-			</div>
-
-			<div class="btn-group col-auto">
-				<button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="bi bi-check2-square"></i>
-				</button>
-				<div class="dropdown-menu">
-					<button id="check-all" class="dropdown-item" type="button">Check All</button>
-					<button id="uncheck-all" class="dropdown-item" type="button">Uncheck All</button>
-				</div>
-			</div>
-
-			<button type="submit" class="btn btn-danger col-auto me-3" id="delete-btn" disabled form="delete">
-				<i class="bi bi-trash-fill"></i>
-			</button>
+			</form>
 		</div>
-	</form>
-	
-	<form class="collapse px-0 mt-3" id="contact-form" action="{% url 'add'%}" method="post">
-		<div class="card card-body">
-			{% csrf_token %}
-			<div class="row mb-2">
-				<div class="col-md-6 pr-1">
-					<label for="{{ contact_form.name.id_for_label }}" class="form-label">Name</label>
-					{{ contact_form.name }}
+
+		<div class="col-auto ps-0">
+			<div class="btn-group" role="group" aria-label="Operations">
+				<button type="submit" class="btn btn-danger" id="delete-btn" disabled form="delete">
+					<i class="bi bi-trash-fill"></i>
+				</button>
+
+				<button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#contact-form" aria-expanded="false" aria-controls="contact-form">
+					<i class="bi bi-plus-lg"></i>
+				</button>
+
+				<div class="btn-group" role="group" aria-label="Filter by category">
+					<button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="bi bi-funnel-fill"></i>
+					</button>
+					<ul class="dropdown-menu">
+					{% for category in categories %}
+						<li class="dropdown-item">
+							<a href="{% url 'filter' category %}" class="text-decoration-none link-dark">{{ category }}</a>
+						</li>
+					{% endfor %}
+					</ul>
 				</div>
-				<div class="col-md-6">
-					<label for="{{ contact_form.surname.id_for_label }}" class="form-label">Surname</label>
-					{{ contact_form.surname }}
-				</div>
-			</div>
-			<div class="row mb-2">
-				<div class="col-md-6 pr-1">
-					<label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone</label>
-					{{ contact_form.phone }}
-				</div>
-				<div class="col-md-6">
-					<label for="{{ contact_form.category.id_for_label }}" class="form-label">Category</label>
-					{{ contact_form.category }}
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12">
-					<label for="{{ contact_form.email.id_for_label }}" class="form-label">Email</label>
-					{{ contact_form.email }}
-				</div>
-			</div>
-			<div class="row mt-3">
-				<div class="col-md-3">
-					<button type="submit" class="btn btn-primary">Submit</button>
+
+				<div class="btn-group" role="group" aria-label="Select contacts">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="bi bi-check2-square"></i>
+					</button>
+					<div class="dropdown-menu">
+						<button id="check-all" class="dropdown-item" type="button">Check All</button>
+						<button id="uncheck-all" class="dropdown-item" type="button">Uncheck All</button>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="row">
+		<form class="collapse mt-3" id="contact-form" action="{% url 'add'%}" method="post">
+			<div class="card card-body">
+				{% csrf_token %}
+				<div class="row mb-2">
+					<div class="col-md-6 pe-1">
+						<label for="{{ contact_form.name.id_for_label }}" class="form-label">Name</label>
+						{{ contact_form.name }}
+					</div>
+					<div class="col-md-6">
+						<label for="{{ contact_form.surname.id_for_label }}" class="form-label">Surname</label>
+						{{ contact_form.surname }}
+					</div>
+				</div>
+				<div class="row mb-2">
+					<div class="col-md-6 pe-1">
+						<label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone</label>
+						{{ contact_form.phone }}
+					</div>
+					<div class="col-md-6">
+						<label for="{{ contact_form.category.id_for_label }}" class="form-label">Category</label>
+						{{ contact_form.category }}
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<label for="{{ contact_form.email.id_for_label }}" class="form-label">Email</label>
+						{{ contact_form.email }}
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-md-3">
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="container">
+	<form action="{% url 'delete' %}" method="POST" id="delete">
+		{% csrf_token %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Phone Number</th>
+					<th>Category</th>
+					<th>Select</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for contact in contacts %}
+				<tr>
+					<td>{{ contact.id }}</td>
+					<td>
+						<a href="{% url 'contact' contact_id=contact.id %}" class="text-decoration-none">{{ contact.name }}</a>
+					</td>
+					<td>{{ contact.surname }}</td>
+					<td>{{ contact.phone }}</td>
+					<td>{{ contact.category }}</td>
+					<td>
+						<input class="contact-checkbox form-check-input" type="checkbox" name="contacts" value="{{ contact.id }}">
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</form>
 </div>
 
-<form action="{% url 'delete' %}" method="POST" id="delete">
-	{% csrf_token %}
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Name</th>
-				<th>Surname</th>
-				<th>Phone Number</th>
-				<th>Category</th>
-				<th>Select</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for contact in contacts %}
-			<tr>
-				<td>{{ contact.id }}</td>
-				<td>
-					<a href="{% url 'contact' contact_id=contact.id %}" class="text-decoration-none">{{ contact.name }}</a>
-				</td>
-				<td>{{ contact.surname }}</td>
-				<td>{{ contact.phone }}</td>
-				<td>{{ contact.category }}</td>
-				<td>
-					<input class="contact-checkbox" type="checkbox" name="contacts" value="{{ contact.id }}">
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</form>
-
-<nav aria-label="Contacts page navigation">
+<nav class="container" aria-label="Contacts page navigation">
 	<ul class="pagination">
 		{% if contacts.has_previous %}
 		<li class="page-item"><a class="page-link" href="?page=1&term={{ request.GET.term }}">First</a></li>
@@ -136,7 +154,7 @@
 
 		{% if contacts.has_next %}
         <li class="page-item"><a class="page-link" href="?page={{ contacts.next_page_number }}&term={{ request.GET.term }}">&raquo;</a></li>
-		<li class="page-item"><a class="page-link" href="?page={{ contact.num_pages }}&term={{ request.GET.term }}">Last</a></li>
+		<li class="page-item"><a class="page-link" href="?page={{ contacts.paginator.num_pages }}&term={{ request.GET.term }}">Last</a></li>
 		{% endif %}
 	</ul>
 </nav>

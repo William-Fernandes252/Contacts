@@ -13,10 +13,11 @@ def index(request):
     context = {}
     
     contacts = Contact.objects.filter(show = True)
+        
     paginator = Paginator(contacts, 20)
     page_number = request.GET.get('page')
     context['contacts'] = paginator.get_page(page_number)
-    context['categories'] = Category.objects.all()
+    context['categories'] = [category['name'] for category in Category.objects.values('name')]
     
     context['contact_form'] = ContactForm()
     
@@ -71,3 +72,18 @@ def delete(request):
         Contact.objects.filter(pk__in = ids).delete()
         messages.success(request, "Contacts deleted.")  
     return HttpResponseRedirect(reverse('index'))
+
+
+def filter(request, category):
+    context = {}
+    
+    contacts = Contact.objects.filter(show = True, category__name = category)
+        
+    paginator = Paginator(contacts, 20)
+    page_number = request.GET.get('page')
+    context['contacts'] = paginator.get_page(page_number)
+    context['categories'] = [category['name'] for category in Category.objects.values('name')]
+    
+    context['contact_form'] = ContactForm()
+    
+    return render(request, 'contacts/index.html', context)
