@@ -8,5 +8,6 @@ urlpatterns = [
     path('search/', views.IndexView.as_view(search=True), name='search'),
     path('contact/<int:pk>/', views.ContactView.as_view(), name='contact'),
     path('add/', views.add, name='add'),
+    path('edit/<int:pk>', views.edit, name='edit'),
     path('delete/', views.delete, name='delete'),
 ]

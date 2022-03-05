@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.http import Http404, HttpResponseRedirect
@@ -38,7 +38,7 @@ class IndexView(TemplateView):
             contacts = Contact.objects.filter(show = True)
             
         paginator = Paginator(contacts, 20)
-        page_number = kwargs.get('page')
+        page_number = self.request.GET.get('page')
         context['contacts'] = paginator.get_page(page_number)
         context['categories'] = [category['name'] for category in Category.objects.values('name')]
         
@@ -58,7 +58,7 @@ class ContactView(DetailView):
         if not context['contact'].show:
             raise Http404
         
-        context['form'] = ContactForm()
+        context['form'] = ContactForm(instance=context['contact'])
         return context
         
     
@@ -66,9 +66,20 @@ def add(request):
     form = ContactForm(request.POST)
     if form.is_valid():
         form.save()
-        messages.success(request, "New Contact has been added!")
+        messages.success(request, "New contact has been added!")
     else:
         messages.error(request, "Invalid contact.")
+    return HttpResponseRedirect(reverse('index'))
+
+
+def edit(request, pk):
+    contact = get_object_or_404(Contact, pk=pk)
+    form = ContactForm(request.POST, instance=contact)
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Contact updated!")
+    else:
+        messages.error(request, "Invalid input.")
     return HttpResponseRedirect(reverse('index'))
 
 

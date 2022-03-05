@@ -13,7 +13,20 @@
             {% endif %}
         </div>
         <div class="col-auto">
-            <h1 class="mt-5 mb-3 display-3">{{ contact.fullname }}</h1>
+            <h1 class="mt-5 mb-3 display-3">
+                {{ contact.fullname }}
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#contact-form-modal">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button type="submit" class="btn btn-danger" form="delete-form">
+                        <i class="bi bi-trash-fill"></i>
+                    </button>
+                </div>
+                <form action="{% url 'delete' %}" method="post" id="delete-form" class="d-none">
+                    <input type="hidden" class="btn btn-danger" name="contacts" value="{{ contact.id }}">
+                </form>
+            </h1>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item fs-5">
                     <span class="fs-4 fw-bold">ID</span> {{ contact.id }}
@@ -33,7 +46,7 @@
                 {% if contact.description %}
                 <li class="list-group-item fs-5">
                     <span class="fs-4 fw-bold">Description</span>
-                    <p>
+                    <p class="fs-5">
                         {{ contact.description }}
                     </p>
                 </li>
@@ -42,4 +55,55 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="contact-form-modal" tabindex="-1" aria-labelledby="Edit Contact" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light">
+                <form action="{% url 'edit' pk=contact.id %}" method="post" id="contact-form">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 pe-1">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+                            {{ form.name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="{{ form.surname.id_for_label }}" class="form-label">Surname</label>
+                            {{ form.surname }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 pe-1 mt-3">
+                            <label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+                            {{ form.category }}
+                        </div>
+                        <div class="col-md-8 mt-3">
+                            <label for="{{ form.picture.id_for_label }}" class="form-label">Picture</label>
+                            {{ form.picture }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mt-3">
+                            <label for="{{ form.phone.id_for_label }}" class="form-label">Phone</label>
+                            {{ form.phone }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mt-3">
+                            <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="contact-form" class="btn btn-success me-2">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+  </div>
 {% endblock content %}
