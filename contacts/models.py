@@ -1,6 +1,9 @@
+from concurrent.futures import process
 from django.db import models
 from django.core.validators import RegexValidator, EmailValidator
 from django.utils import timezone
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 
 class Category(models.Model):
@@ -31,6 +34,19 @@ class Contact(models.Model):
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     show = models.BooleanField(default=True)
+    picture = ProcessedImageField(
+        blank=True, 
+        upload_to='pictures/%Y/%m/%d', 
+        processors=[
+            ResizeToFill(400, 400)
+        ],
+        format='JPEG',
+        options={'quality': 100}
+    )
+    
+    def save(self, *args, **kwargs):
+        
+        super().save(*args, **kwargs)
     
     @property
     def fullname(self):

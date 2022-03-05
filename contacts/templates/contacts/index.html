@@ -14,7 +14,7 @@
 		<h1 class="col">My Contactbook</h1>
 	</div>
 
-	<div class="row mb-2">
+	<div class="row my-3">
 		<div class="col">
 			<form action="{% url 'search' %}" method="get">
 				<input class="form-control" type="search" placeholder="Search" aria-label="Search" name="term" value="{{ request.GET.term }}">

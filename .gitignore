@@ -133,3 +133,6 @@ dmypy.json
 
 # Style packages
 templates/static/vendor/
+
+# Profile images
+media/pictures
