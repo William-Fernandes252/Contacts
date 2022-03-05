@@ -5,7 +5,7 @@ from django.forms import ModelForm
 class ContactForm(ModelForm):
     class Meta:
         model = Contact
-        fields = ('name', 'surname', 'phone', 'email', 'category')
+        fields = ('name', 'surname', 'phone', 'email', 'category', 'picture')
         
     def __init__(self, *args, **kwargs):
         super(ContactForm, self).__init__(*args, **kwargs)
@@ -14,3 +14,4 @@ class ContactForm(ModelForm):
         self.fields['phone'].widget.attrs['class'] = 'form-control'
         self.fields['email'].widget.attrs['class'] = 'form-control'
         self.fields['category'].widget.attrs['class'] = 'form-control form-select'
+        self.fields['picture'].widget.attrs['class'] = 'form-control'

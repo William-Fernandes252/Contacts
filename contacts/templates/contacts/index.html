@@ -10,7 +10,7 @@
 {% block content %}
 
 <div class="container">
-	<div class="row mt-5 mb-2">
+	<div class="row mt-5 mb-3">
 		<h1 class="col">My Contactbook</h1>
 	</div>
 
@@ -57,11 +57,11 @@
 		</div>
 	</div>
 
-	<div class="row">
-		<form class="collapse mt-3" id="contact-form" action="{% url 'add'%}" method="post">
+	<div class="row bg-light rounded">
+		<form class="collapse mt-2 mb-3" id="contact-form" action="{% url 'add'%}" method="post">
 			<div class="card card-body">
 				{% csrf_token %}
-				<div class="row mb-2">
+				<div class="row mb-3">
 					<div class="col-md-6 pe-1">
 						<label for="{{ contact_form.name.id_for_label }}" class="form-label">Name</label>
 						{{ contact_form.name }}
@@ -71,21 +71,26 @@
 						{{ contact_form.surname }}
 					</div>
 				</div>
-				<div class="row mb-2">
-					<div class="col-md-6 pe-1">
+				<div class="row mb-3">
+					<div class="col-md-4 pe-1">
 						<label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone</label>
 						{{ contact_form.phone }}
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4 pe-1">
 						<label for="{{ contact_form.category.id_for_label }}" class="form-label">Category</label>
 						{{ contact_form.category }}
 					</div>
+					<div class="col-md-4">
+						<label for="{{ contact_form.picture.id_for_label }}" class="form-label">Picture</label>
+						{{ contact_form.picture }}
+					</div>
 				</div>
 				<div class="row">
-					<div class="col-12">
+					<div class="col-md-12 pe-1">
 						<label for="{{ contact_form.email.id_for_label }}" class="form-label">Email</label>
 						{{ contact_form.email }}
 					</div>
+					
 				</div>
 				<div class="row mt-3">
 					<div class="col-md-3">
