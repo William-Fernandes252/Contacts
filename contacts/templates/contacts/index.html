@@ -57,38 +57,38 @@
 		</div>
 	</div>
 
-	<div class="row bg-light rounded">
+	<div class="row rounded">
 		<form class="collapse mt-2 mb-3" id="contact-form" action="{% url 'add'%}" method="post">
-			<div class="card card-body">
+			<div class="card card-body bg-light">
 				{% csrf_token %}
 				<div class="row mb-3">
 					<div class="col-md-6 pe-1">
-						<label for="{{ contact_form.name.id_for_label }}" class="form-label">Name</label>
-						{{ contact_form.name }}
+						<label for="{{ form.name.id_for_label }}" class="form-label">Name</label>
+						{{ form.name }}
 					</div>
 					<div class="col-md-6">
-						<label for="{{ contact_form.surname.id_for_label }}" class="form-label">Surname</label>
-						{{ contact_form.surname }}
+						<label for="{{ form.surname.id_for_label }}" class="form-label">Surname</label>
+						{{ form.surname }}
 					</div>
 				</div>
 				<div class="row mb-3">
 					<div class="col-md-4 pe-1">
-						<label for="{{ contact_form.phone.id_for_label }}" class="form-label">Phone</label>
-						{{ contact_form.phone }}
+						<label for="{{ form.phone.id_for_label }}" class="form-label">Phone</label>
+						{{ form.phone }}
 					</div>
 					<div class="col-md-4 pe-1">
-						<label for="{{ contact_form.category.id_for_label }}" class="form-label">Category</label>
-						{{ contact_form.category }}
+						<label for="{{ form.category.id_for_label }}" class="form-label">Category</label>
+						{{ form.category }}
 					</div>
 					<div class="col-md-4">
-						<label for="{{ contact_form.picture.id_for_label }}" class="form-label">Picture</label>
-						{{ contact_form.picture }}
+						<label for="{{ form.picture.id_for_label }}" class="form-label">Picture</label>
+						{{ form.picture }}
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12 pe-1">
-						<label for="{{ contact_form.email.id_for_label }}" class="form-label">Email</label>
-						{{ contact_form.email }}
+						<label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+						{{ form.email }}
 					</div>
 					
 				</div>
@@ -121,7 +121,7 @@
 				<tr>
 					<td>{{ contact.id }}</td>
 					<td>
-						<a href="{% url 'contact' contact_id=contact.id %}" class="text-decoration-none">{{ contact.name }}</a>
+						<a href="{% url 'contact' pk=contact.id %}" class="text-decoration-none">{{ contact.name }}</a>
 					</td>
 					<td>{{ contact.surname }}</td>
 					<td>{{ contact.phone }}</td>
