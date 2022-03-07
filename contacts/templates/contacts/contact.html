@@ -7,8 +7,8 @@
     <div class="row">
         <div class="col">
             <ul>
-                {% for error in form.errors %}
-                <li>{{ error }}</li>
+                {% for field in form %}
+                <li>{{ field.errors }}</li>
                 {% endfor %}
             </ul>
         </div>
