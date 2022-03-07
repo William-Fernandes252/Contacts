@@ -66,23 +66,31 @@ class ContactView(DetailView):
         
     
 def add(request):
+    if request.method != 'POST':
+        raise Http404
+    
     form = ContactForm(request.POST)
     if form.is_valid():
         form.save()
-        messages.success(request, "New contact has been added!")
+        messages.success(request, f"Contact {request.POST.get('name')} has been added!")
     else:
         messages.error(request, "Invalid contact.")
+        
     return HttpResponseRedirect(reverse('index'))
 
 
 def edit(request, pk):
+    if request.method != 'POST':
+        raise Http404
+    
     contact = get_object_or_404(Contact, pk=pk)
     form = ContactForm(request.POST, instance=contact)
     if form.is_valid():
         form.save()
-        messages.success(request, "Contact updated!")
+        messages.success(request, f"Contact {request.POST.get('name')} updated!")
     else:
         messages.error(request, "Invalid input.")
+        
     return HttpResponseRedirect(reverse('index'))
 
 
