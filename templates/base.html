@@ -11,15 +11,7 @@
 
 	<body>
 		{% include 'partials/_nav.html' %}
-
-		{% if messages %}
-			{% for message in messages %}
-				<div class="alert alert-{{ message.tags }} text-center fs-4" role="alert">
-					{{ message }}
-				</div>
-			{% endfor %}
-        {% endif %}
-
+		{% include 'partials/_messages.html' %}
 		{% block content %}{% endblock content %}
 	</body>
 </html>

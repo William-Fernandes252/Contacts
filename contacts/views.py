@@ -23,9 +23,11 @@ class IndexView(TemplateView):
             
         elif self.search:
             fields = Concat('name', Value(' '), 'surname')
-            context['search'] = self.request.GET.get('term')
+    
+            context['search'] = self.request.GET.get('term')        
             if context['search'] is None or not context['search']:
-                raise Http404()
+                messages.error(self.request, 'Search field cannot be empty.')
+                contacts = Contact.objects.filter(show = True)
             
             contacts = Contact.objects.annotate(
                 full_name = fields
