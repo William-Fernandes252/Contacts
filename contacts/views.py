@@ -19,7 +19,8 @@ class IndexView(TemplateView):
         context = super(IndexView, self).get_context_data(**kwargs)
         
         if kwargs.get('category'):
-            contacts = Contact.objects.filter(show = True, category__name = kwargs.get('category'))
+            context['category'] = kwargs.get('category')
+            contacts = Contact.objects.filter(show = True, category__name = context['category'])
             
         elif self.search:
             fields = Concat('name', Value(' '), 'surname')

@@ -2,7 +2,15 @@
 {% load static %}
 {% load filters %}
 
-{% block title %}Contactbook{% endblock title %}
+{% block title %}
+	{% if 'search' in request.path %}
+		{{ search }} | Search
+	{% elif 'filter' in request.path %}
+		{{ category }} | Category
+	{% else %}
+		Contactbook
+	{% endif %}
+{% endblock title %}
 
 {% block script %}
 	<script src="{% static 'interface.js' %}"></script>
