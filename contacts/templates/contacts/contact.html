@@ -4,15 +4,6 @@
 
 {% block content %}
 <div class="conteiner-fluid mx-5">
-    <div class="row">
-        <div class="col">
-            <ul>
-                {% for field in form %}
-                <li>{{ field.errors }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
     <div class="row justify-content-evenly align-items-center mt-5">
         <div class="col-auto">
             {% if contact.picture %}
