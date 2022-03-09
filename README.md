@@ -10,7 +10,7 @@ A Contacts Book Web Application implemented in Django.
 
 ## Installing and running
 - Clone this repository with `https://github.com/William-Fernandes252/Schedule.git`;
-- Inside of `/Auctions` run `python manage.py runserver`;
+- Inside of `/Schedule` run `python manage.py runserver`;
 - Finally, go to [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
 
 ## Project snapshot
